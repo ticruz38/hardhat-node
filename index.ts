@@ -1,16 +1,23 @@
 import * as proxy from "express-http-proxy";
 import * as express from "express";
 import * as cors from "cors";
+import * as apicache from "apicache";
 
 const app = express();
 
+const cache = apicache.middleware;
+
 app.set("trust proxy", true);
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(cache("5 minutes"));
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//   })
+// );
+
+app.use(cors());
 
 app.use(
   "/",

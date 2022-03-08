@@ -239,10 +239,10 @@ export interface AaveWrapperToken extends BaseContract {
     ): Promise<[BigNumber]>;
 
     approve(
-      arg0: string,
-      arg1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -333,10 +333,10 @@ export interface AaveWrapperToken extends BaseContract {
   ): Promise<BigNumber>;
 
   approve(
-    arg0: string,
-    arg1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+    spender: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -427,8 +427,8 @@ export interface AaveWrapperToken extends BaseContract {
     ): Promise<BigNumber>;
 
     approve(
-      arg0: string,
-      arg1: BigNumberish,
+      spender: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -563,9 +563,9 @@ export interface AaveWrapperToken extends BaseContract {
     ): Promise<BigNumber>;
 
     approve(
-      arg0: string,
-      arg1: BigNumberish,
-      overrides?: CallOverrides
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -658,9 +658,9 @@ export interface AaveWrapperToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     approve(
-      arg0: string,
-      arg1: BigNumberish,
-      overrides?: CallOverrides
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(

@@ -34,20 +34,20 @@ export interface AavePoolInterface extends utils.Interface {
     "aaveGovernance()": FunctionFragment;
     "aaveToken()": FunctionFragment;
     "assetIndex()": FunctionFragment;
-    "bid(uint256,uint128,bool)": FunctionFragment;
+    "bid(address,uint256,uint128,bool)": FunctionFragment;
     "bidAsset()": FunctionFragment;
     "bids(uint256)": FunctionFragment;
     "blockProposalId(uint256)": FunctionFragment;
     "blockedProposals(uint256)": FunctionFragment;
     "bribeRewardConfig()": FunctionFragment;
     "bribeToken()": FunctionFragment;
-    "claimReward(address,address,bytes)": FunctionFragment;
-    "deposit(address,address,uint128)": FunctionFragment;
+    "claimReward(address,address,bytes,bool)": FunctionFragment;
+    "createProposal(address,address[],uint256[],string[],bytes[],bool[],bytes32)": FunctionFragment;
+    "deposit(address,address,uint128,bool)": FunctionFragment;
     "distributeRewards(uint256)": FunctionFragment;
     "feeReceipient()": FunctionFragment;
     "feesReceived()": FunctionFragment;
     "getPendingRewardToBeDistributed()": FunctionFragment;
-    "lastVoteEndTime()": FunctionFragment;
     "multicall(bytes[])": FunctionFragment;
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
@@ -56,7 +56,6 @@ export interface AavePoolInterface extends utils.Interface {
     "refund(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "rewardBalanceOf(address)": FunctionFragment;
-    "setDelayPeriod(uint64)": FunctionFragment;
     "setEndTimestamp(uint64)": FunctionFragment;
     "setFeeRecipient(address)": FunctionFragment;
     "setRewardPerSecond(uint128)": FunctionFragment;
@@ -67,10 +66,9 @@ export interface AavePoolInterface extends utils.Interface {
     "unpause()": FunctionFragment;
     "vote(uint256)": FunctionFragment;
     "votingPower(uint256)": FunctionFragment;
-    "withdraw(address,address,uint128)": FunctionFragment;
+    "withdraw(address,address,uint128,bool)": FunctionFragment;
     "withdrawFees()": FunctionFragment;
     "withdrawRemainingBribeReward()": FunctionFragment;
-    "withdrawalDelayPeriodInSeconds()": FunctionFragment;
     "wrapperAaveToken()": FunctionFragment;
     "wrapperStkAaveToken()": FunctionFragment;
   };
@@ -86,7 +84,7 @@ export interface AavePoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "bid",
-    values: [BigNumberish, BigNumberish, boolean]
+    values: [string, BigNumberish, BigNumberish, boolean]
   ): string;
   encodeFunctionData(functionFragment: "bidAsset", values?: undefined): string;
   encodeFunctionData(functionFragment: "bids", values: [BigNumberish]): string;
@@ -108,11 +106,23 @@ export interface AavePoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "claimReward",
-    values: [string, string, BytesLike]
+    values: [string, string, BytesLike, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createProposal",
+    values: [
+      string,
+      string[],
+      BigNumberish[],
+      string[],
+      BytesLike[],
+      boolean[],
+      BytesLike
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "deposit",
-    values: [string, string, BigNumberish]
+    values: [string, string, BigNumberish, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "distributeRewards",
@@ -128,10 +138,6 @@ export interface AavePoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getPendingRewardToBeDistributed",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "lastVoteEndTime",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -165,10 +171,6 @@ export interface AavePoolInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "rewardBalanceOf",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDelayPeriod",
-    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setEndTimestamp",
@@ -206,7 +208,7 @@ export interface AavePoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "withdraw",
-    values: [string, string, BigNumberish]
+    values: [string, string, BigNumberish, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "withdrawFees",
@@ -214,10 +216,6 @@ export interface AavePoolInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "withdrawRemainingBribeReward",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawalDelayPeriodInSeconds",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -255,6 +253,10 @@ export interface AavePoolInterface extends utils.Interface {
     functionFragment: "claimReward",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "createProposal",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "distributeRewards",
@@ -272,10 +274,6 @@ export interface AavePoolInterface extends utils.Interface {
     functionFragment: "getPendingRewardToBeDistributed",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "lastVoteEndTime",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "multicall", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
@@ -291,10 +289,6 @@ export interface AavePoolInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "rewardBalanceOf",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDelayPeriod",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -341,10 +335,6 @@ export interface AavePoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "withdrawalDelayPeriodInSeconds",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "wrapperAaveToken",
     data: BytesLike
   ): Result;
@@ -356,8 +346,9 @@ export interface AavePoolInterface extends utils.Interface {
   events: {
     "AssetReward(address,uint256,uint256)": EventFragment;
     "BlockProposalId(uint256,uint256)": EventFragment;
+    "CreatedProposal(uint256)": EventFragment;
     "Deposit(address,address,uint256,uint256)": EventFragment;
-    "HighestBidIncreased(uint256,address,address,uint256)": EventFragment;
+    "HighestBidIncreased(uint256,address,address,address,uint256,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "Refund(uint256,address,uint256)": EventFragment;
@@ -380,6 +371,7 @@ export interface AavePoolInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "AssetReward"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BlockProposalId"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CreatedProposal"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -418,6 +410,13 @@ export type BlockProposalIdEvent = TypedEvent<
 
 export type BlockProposalIdEventFilter = TypedEventFilter<BlockProposalIdEvent>;
 
+export type CreatedProposalEvent = TypedEvent<
+  [BigNumber],
+  { proposalId: BigNumber }
+>;
+
+export type CreatedProposalEventFilter = TypedEventFilter<CreatedProposalEvent>;
+
 export type DepositEvent = TypedEvent<
   [string, string, BigNumber, BigNumber],
   { token: string; user: string; amount: BigNumber; timestamp: BigNumber }
@@ -426,12 +425,14 @@ export type DepositEvent = TypedEvent<
 export type DepositEventFilter = TypedEventFilter<DepositEvent>;
 
 export type HighestBidIncreasedEvent = TypedEvent<
-  [BigNumber, string, string, BigNumber],
+  [BigNumber, string, string, string, BigNumber, boolean],
   {
     proposalId: BigNumber;
     prevHighestBidder: string;
     highestBidder: string;
+    sender: string;
     highestBid: BigNumber;
+    support: boolean;
   }
 >;
 
@@ -626,8 +627,10 @@ export interface AavePool extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
+        BigNumber,
         BigNumber
       ] & {
+        lastStkAaveRewardBalance: BigNumber;
         rewardIndex: BigNumber;
         bribeRewardIndex: BigNumber;
         bribeLastRewardTimestamp: BigNumber;
@@ -639,6 +642,7 @@ export interface AavePool extends BaseContract {
     >;
 
     bid(
+      bidder: string,
       proposalId: BigNumberish,
       amount: BigNumberish,
       support: boolean,
@@ -688,6 +692,18 @@ export interface AavePool extends BaseContract {
       to: string,
       executor: string,
       data: BytesLike,
+      claim: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    createProposal(
+      executor: string,
+      targets: string[],
+      values: BigNumberish[],
+      signatures: string[],
+      calldatas: BytesLike[],
+      withDelegatecalls: boolean[],
+      ipfsHash: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -695,6 +711,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -710,8 +727,6 @@ export interface AavePool extends BaseContract {
     getPendingRewardToBeDistributed(
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { pendingReward: BigNumber }>;
-
-    lastVoteEndTime(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     multicall(
       data: BytesLike[],
@@ -757,11 +772,6 @@ export interface AavePool extends BaseContract {
         totalPendingBribeReward: BigNumber;
       }
     >;
-
-    setDelayPeriod(
-      _withdrawalDelayPeriodInSeconds: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     setEndTimestamp(
       endTimestamp: BigNumberish,
@@ -814,6 +824,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -824,10 +835,6 @@ export interface AavePool extends BaseContract {
     withdrawRemainingBribeReward(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    withdrawalDelayPeriodInSeconds(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     wrapperAaveToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -848,8 +855,10 @@ export interface AavePool extends BaseContract {
       BigNumber,
       BigNumber,
       BigNumber,
+      BigNumber,
       BigNumber
     ] & {
+      lastStkAaveRewardBalance: BigNumber;
       rewardIndex: BigNumber;
       bribeRewardIndex: BigNumber;
       bribeLastRewardTimestamp: BigNumber;
@@ -861,6 +870,7 @@ export interface AavePool extends BaseContract {
   >;
 
   bid(
+    bidder: string,
     proposalId: BigNumberish,
     amount: BigNumberish,
     support: boolean,
@@ -910,6 +920,18 @@ export interface AavePool extends BaseContract {
     to: string,
     executor: string,
     data: BytesLike,
+    claim: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  createProposal(
+    executor: string,
+    targets: string[],
+    values: BigNumberish[],
+    signatures: string[],
+    calldatas: BytesLike[],
+    withDelegatecalls: boolean[],
+    ipfsHash: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -917,6 +939,7 @@ export interface AavePool extends BaseContract {
     asset: string,
     recipient: string,
     amount: BigNumberish,
+    claim: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -932,8 +955,6 @@ export interface AavePool extends BaseContract {
   getPendingRewardToBeDistributed(
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  lastVoteEndTime(overrides?: CallOverrides): Promise<BigNumber>;
 
   multicall(
     data: BytesLike[],
@@ -979,11 +1000,6 @@ export interface AavePool extends BaseContract {
       totalPendingBribeReward: BigNumber;
     }
   >;
-
-  setDelayPeriod(
-    _withdrawalDelayPeriodInSeconds: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   setEndTimestamp(
     endTimestamp: BigNumberish,
@@ -1036,6 +1052,7 @@ export interface AavePool extends BaseContract {
     asset: string,
     recipient: string,
     amount: BigNumberish,
+    claim: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1046,8 +1063,6 @@ export interface AavePool extends BaseContract {
   withdrawRemainingBribeReward(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  withdrawalDelayPeriodInSeconds(overrides?: CallOverrides): Promise<BigNumber>;
 
   wrapperAaveToken(overrides?: CallOverrides): Promise<string>;
 
@@ -1068,8 +1083,10 @@ export interface AavePool extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
+        BigNumber,
         BigNumber
       ] & {
+        lastStkAaveRewardBalance: BigNumber;
         rewardIndex: BigNumber;
         bribeRewardIndex: BigNumber;
         bribeLastRewardTimestamp: BigNumber;
@@ -1081,6 +1098,7 @@ export interface AavePool extends BaseContract {
     >;
 
     bid(
+      bidder: string,
       proposalId: BigNumberish,
       amount: BigNumberish,
       support: boolean,
@@ -1130,13 +1148,26 @@ export interface AavePool extends BaseContract {
       to: string,
       executor: string,
       data: BytesLike,
+      claim: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    createProposal(
+      executor: string,
+      targets: string[],
+      values: BigNumberish[],
+      signatures: string[],
+      calldatas: BytesLike[],
+      withDelegatecalls: boolean[],
+      ipfsHash: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     deposit(
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1152,8 +1183,6 @@ export interface AavePool extends BaseContract {
     getPendingRewardToBeDistributed(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    lastVoteEndTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     multicall(data: BytesLike[], overrides?: CallOverrides): Promise<string[]>;
 
@@ -1189,11 +1218,6 @@ export interface AavePool extends BaseContract {
         totalPendingBribeReward: BigNumber;
       }
     >;
-
-    setDelayPeriod(
-      _withdrawalDelayPeriodInSeconds: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     setEndTimestamp(
       endTimestamp: BigNumberish,
@@ -1241,16 +1265,13 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
     withdrawFees(overrides?: CallOverrides): Promise<BigNumber>;
 
     withdrawRemainingBribeReward(overrides?: CallOverrides): Promise<void>;
-
-    withdrawalDelayPeriodInSeconds(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     wrapperAaveToken(overrides?: CallOverrides): Promise<string>;
 
@@ -1278,6 +1299,9 @@ export interface AavePool extends BaseContract {
       timestamp?: null
     ): BlockProposalIdEventFilter;
 
+    "CreatedProposal(uint256)"(proposalId?: null): CreatedProposalEventFilter;
+    CreatedProposal(proposalId?: null): CreatedProposalEventFilter;
+
     "Deposit(address,address,uint256,uint256)"(
       token?: string | null,
       user?: string | null,
@@ -1291,17 +1315,21 @@ export interface AavePool extends BaseContract {
       timestamp?: null
     ): DepositEventFilter;
 
-    "HighestBidIncreased(uint256,address,address,uint256)"(
+    "HighestBidIncreased(uint256,address,address,address,uint256,bool)"(
       proposalId?: BigNumberish | null,
       prevHighestBidder?: string | null,
       highestBidder?: string | null,
-      highestBid?: null
+      sender?: null,
+      highestBid?: null,
+      support?: null
     ): HighestBidIncreasedEventFilter;
     HighestBidIncreased(
       proposalId?: BigNumberish | null,
       prevHighestBidder?: string | null,
       highestBidder?: string | null,
-      highestBid?: null
+      sender?: null,
+      highestBid?: null,
+      support?: null
     ): HighestBidIncreasedEventFilter;
 
     "OwnershipTransferred(address,address)"(
@@ -1480,6 +1508,7 @@ export interface AavePool extends BaseContract {
     assetIndex(overrides?: CallOverrides): Promise<BigNumber>;
 
     bid(
+      bidder: string,
       proposalId: BigNumberish,
       amount: BigNumberish,
       support: boolean,
@@ -1508,6 +1537,18 @@ export interface AavePool extends BaseContract {
       to: string,
       executor: string,
       data: BytesLike,
+      claim: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    createProposal(
+      executor: string,
+      targets: string[],
+      values: BigNumberish[],
+      signatures: string[],
+      calldatas: BytesLike[],
+      withDelegatecalls: boolean[],
+      ipfsHash: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1515,6 +1556,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1530,8 +1572,6 @@ export interface AavePool extends BaseContract {
     getPendingRewardToBeDistributed(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    lastVoteEndTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     multicall(
       data: BytesLike[],
@@ -1570,11 +1610,6 @@ export interface AavePool extends BaseContract {
     rewardBalanceOf(
       user: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    setDelayPeriod(
-      _withdrawalDelayPeriodInSeconds: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setEndTimestamp(
@@ -1628,6 +1663,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1637,10 +1673,6 @@ export interface AavePool extends BaseContract {
 
     withdrawRemainingBribeReward(
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    withdrawalDelayPeriodInSeconds(
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     wrapperAaveToken(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1656,6 +1688,7 @@ export interface AavePool extends BaseContract {
     assetIndex(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bid(
+      bidder: string,
       proposalId: BigNumberish,
       amount: BigNumberish,
       support: boolean,
@@ -1687,6 +1720,18 @@ export interface AavePool extends BaseContract {
       to: string,
       executor: string,
       data: BytesLike,
+      claim: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createProposal(
+      executor: string,
+      targets: string[],
+      values: BigNumberish[],
+      signatures: string[],
+      calldatas: BytesLike[],
+      withDelegatecalls: boolean[],
+      ipfsHash: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1694,6 +1739,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1709,8 +1755,6 @@ export interface AavePool extends BaseContract {
     getPendingRewardToBeDistributed(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    lastVoteEndTime(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     multicall(
       data: BytesLike[],
@@ -1749,11 +1793,6 @@ export interface AavePool extends BaseContract {
     rewardBalanceOf(
       user: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setDelayPeriod(
-      _withdrawalDelayPeriodInSeconds: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setEndTimestamp(
@@ -1807,6 +1846,7 @@ export interface AavePool extends BaseContract {
       asset: string,
       recipient: string,
       amount: BigNumberish,
+      claim: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1816,10 +1856,6 @@ export interface AavePool extends BaseContract {
 
     withdrawRemainingBribeReward(
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    withdrawalDelayPeriodInSeconds(
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     wrapperAaveToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;

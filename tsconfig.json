@@ -12,6 +12,8 @@
     "./scripts",
     "./test",
     "./deploy",
+    "./tasks",
+    "./utils",
     "./hardhat.config.ts",
   ],
   "files": [
