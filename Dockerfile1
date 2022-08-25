@@ -1,0 +1,7 @@
+FROM ghcr.io/foundry-rs/foundry:nightly
+
+EXPOSE 8545
+
+# RUN anvil
+
+ENTRYPOINT [ "anvil", "--chain-id", "1337", "--host", "0.0.0.0"]

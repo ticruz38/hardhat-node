@@ -20,18 +20,13 @@ module.exports = {
   solidity: "0.7.3",
   networks: {
     hardhat: {
-      // chainId: 1337,
+      chainId: 1337,
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/Ew27_E0Lg-8griqid-h-59j5MNwZ6hjE`,
-        blockNumber: 14255372,
       },
-      // mining: {
-      //   auto: false,
-      //   interval: 13000,
-      // },
     },
     bribe: {
-      url: "https://hh-node.thibautduchene.fr",
+      url: "https://bribe-node-v2-default.aalaap.on-rio.io",
     },
   },
   external: {

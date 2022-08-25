@@ -1,16 +1,13 @@
 services:
-  bribe-node:
+  anvil-node:
     version: v1
     build:
-      dockerfile: Dockerfile
-    autoscale:
-      concurrency: 100
+      dockerfile: ./Dockerfile1
     ports:
       - 8545:8545/http
-  proxy-node:
-    build:
-      dockerfile: proxy-dockerfile
-    autoscale:
-      concurrency: 100
-    ports:
-      - 4000:4000/http
+  # bribe-hh:
+  #   version: v1
+  #   build:
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8545:8545/http
